@@ -1,0 +1,9 @@
+Sample/.vs/
+Sample/DotNetMeetup.Blazor.Client/bin/
+Sample/DotNetMeetup.Blazor.Client/obj/
+Sample/DotNetMeetup.Blazor.Shared/bin/
+Sample/DotNetMeetup.Blazor.Shared/obj/
+Sample/DotNetMeetup.Blazor.Data/bin/
+Sample/DotNetMeetup.Blazor.Data/obj/
+Sample/DotNetMeetup.Blazor.Server/bin/
+Sample/DotNetMeetup.Blazor.Server/obj/Debug/

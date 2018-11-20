@@ -1,0 +1,26 @@
+﻿@page  "/users/"
+@inherits DotNetMeetup.Blazor.Client.PageBases.UsersBase
+
+@if (!State.UsersLoaded)
+{
+    <p><em>Loading users...</em></p>
+}
+else
+{
+    <input placeholder="search" class="form-control my-2" ref="searchFilterField"/>
+    <UserList Items="@State.Users">
+        @* If you are defining a template don't forget to include the tag (even empty) otherwise the page won't render *@
+        <ActionTemplate>
+            @*To access the templated parameter use 'context' object which strongly typed to the User object *@
+            <button type="button" class="btn btn-warning" onclick="@(async e => await DeleteUserAsync(context))"><span class="oi oi-trash delete-button" aria-hidden="true"></span></button>
+        </ActionTemplate>
+    </UserList>
+    <CreateUser CreateAction="@(async u => await State.AddUser(u))" />
+}
+
+@functions{
+
+    ElementRef searchFilterField;
+    
+    protected override async Task OnAfterRenderAsync() => await JSRuntime.Current.InvokeAsync<object>("myFunctions.focusElement", searchFilterField);
+}

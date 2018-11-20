@@ -1,0 +1,27 @@
+﻿@inject AppState State
+
+@if (!State.MeetupsLoaded)
+{
+    <p><em>Loading meetups...</em></p>
+}
+else
+{
+    @foreach (var meetup in State.Meetups)
+    {
+        <NavLink href="@($"/Meetup/{meetup.Id}")" Match="NavLinkMatch.Prefix">
+            <ul class="list-group my-3 px-2">
+                <li class="list-group-item event-date">
+                    @meetup.Date.ToShortDateString()
+                </li>
+                <li class="list-group-item">
+                    @meetup.Name
+                </li>
+            </ul>
+        </NavLink>
+    }
+}
+
+@functions{
+
+    protected override void OnInit() => State.OnMeetupsChanged += StateHasChanged;
+}

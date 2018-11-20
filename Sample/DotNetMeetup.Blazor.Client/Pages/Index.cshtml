@@ -1,0 +1,28 @@
+﻿@page "/"
+@page "/meetup"
+@page "/meetup/{Id:long}"
+
+@inject AppState State
+
+<div class="meetup-area">
+    <div class="meetuplist-area p-3">
+        <MeetupList />
+    </div>
+    <div class="selected-meetup-area p-2">
+        <Meetup />
+    </div>
+</div>
+
+@functions{
+
+    [Parameter]
+    private long? Id { get; set; }
+
+    protected override async Task OnInitAsync() => await State.LoadMeetups();
+
+    protected override void OnParametersSet()
+    {
+        if(Id.HasValue)
+            State.SelectMeetup(Id.Value);
+    }
+}

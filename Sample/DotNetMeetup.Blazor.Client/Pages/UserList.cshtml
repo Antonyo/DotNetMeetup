@@ -1,0 +1,29 @@
+﻿<table class="table user-list">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Items)
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td><a href="mailto:@user.Email" >@user.Email</a></td>
+                <td>@ActionTemplate(user)</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3">Total: @Items.Count()</td>
+        </tr>
+    </tfoot>
+</table>
+
+@functions {
+    [Parameter] IEnumerable<User> Items { get; set; }
+    [Parameter] RenderFragment<User> ActionTemplate { get; set; }
+}

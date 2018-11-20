@@ -1,0 +1,26 @@
+﻿<h5>Add new user</h5>
+<form>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td><input for="Name" class="form-control" placeholder="Name" bind="@user.Name" /></td>
+                <td><input for="Email" type="email" class="form-control" placeholder="Email" bind="@user.Email" /></td>
+                <td><button type="button" class="btn btn-default" onclick="@CreateClicked">Save</button></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+@functions{
+
+    User user = new User();    
+
+    [Parameter]
+    private Action<User> CreateAction { get; set; }
+
+    void CreateClicked()
+    {
+        CreateAction(user);
+        user = new User();
+    }
+}
