@@ -1,0 +1,30 @@
+﻿@inject AppState  State
+
+<form>
+    <div class="switch-field">
+        <input type="radio" id="@($"switch_left_{Index}")" name="switch_2" value="yes" checked="@(CheckAttendance(CurrentUser.Id, true))"
+               onchange="@(async e => await State.AddAttendee(State.SelectedMeetup, CurrentUser, true))" />
+        <label for="@($"switch_left_{Index}")">Yes</label>
+        <input type="radio" id="@($"switch_right_{Index}")" name="switch_2" value="no" checked="@(CheckAttendance(CurrentUser.Id, false))"
+               onchange="@(async e => await State.AddAttendee(State.SelectedMeetup, CurrentUser, false))" />
+        <label for="@($"switch_right_{Index}")">No</label>
+    </div>
+</form>
+
+@functions{
+
+    [Parameter]
+    private User CurrentUser { get; set; }
+
+    private int Index => State.IndexOf(CurrentUser);
+
+    protected override void OnInit()
+    {
+        State.OnSelectedMeetupChanged += StateHasChanged;
+    }
+
+    bool CheckAttendance(long userId, bool value)
+    {
+        return State.SelectedMeetup.Attendees.Any(x => x.UserId == userId && x.WillAttend == value);
+    }
+}

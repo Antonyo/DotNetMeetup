@@ -10,25 +10,12 @@ else
 
     <UserList Items="@State.Users">
         <ActionTemplate>
-            <form>
-                <div class="switch-field">
-                    <input type="radio" id="@($"switch_left_{IndexOf(context)}")" name="switch_2" value="yes" checked="@(CheckAttendance(context.Id, true))"
-                           onchange="@(async e => await State.AddAttendee(State.SelectedMeetup, context, true))" />
-                    <label for="@($"switch_left_{IndexOf(context)}")">Yes</label>
-                    <input type="radio" id="@($"switch_right_{IndexOf(context)}")" name="switch_2" value="no" checked="@(CheckAttendance(context.Id, false))"
-                           onchange="@(async e => await State.AddAttendee(State.SelectedMeetup, context, false))" />
-                    <label for="@($"switch_right_{IndexOf(context)}")">No</label>
-                </div>
-            </form>
+            <AttendanceStatus CurrentUser="context" />
         </ActionTemplate>
     </UserList>
 }
 
 @functions{
-
-    private int IndexOf(User user) => State.IndexOf(user);
-
-    bool CheckAttendance(long userId, bool value) => State.SelectedMeetup.Attendees.Any(x => x.UserId == userId && x.WillAttend == value);
 
     protected override void OnInit() => State.OnSelectedMeetupChanged += StateHasChanged;
 
