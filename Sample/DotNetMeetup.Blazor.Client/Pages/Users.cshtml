@@ -7,8 +7,8 @@
 }
 else
 {
-    <input placeholder="search" class="form-control my-2" ref="searchFilterField"/>
-    <UserList Items="@State.Users">
+    <input bind="@searchFilter" placeholder="search" class="form-control my-2" ref="searchFilterField"/>
+    <UserList Items="@FilteredUsers">
         @* If you are defining a template don't forget to include the tag (even empty) otherwise the page won't render *@
         <ActionTemplate>
             @*To access the templated parameter use 'context' object which strongly typed to the User object *@
@@ -21,6 +21,10 @@ else
 @functions{
 
     ElementRef searchFilterField;
-    
+
+    string searchFilter = "";
+
+    public IEnumerable<User> FilteredUsers => string.IsNullOrWhiteSpace(searchFilter) ? State.Users : State.Users.Where(x => x.Name.ToLowerInvariant().Contains(searchFilter.ToLowerInvariant()));
+
     protected override async Task OnAfterRenderAsync() => await JSRuntime.Current.InvokeAsync<object>("myFunctions.focusElement", searchFilterField);
 }
